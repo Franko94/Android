@@ -20,10 +20,10 @@ class MarvelActivity : AppCompatActivity() {
         characterListTextView = findViewById(R.id.characterListTextView)
 
         // Crea una instancia de la interfaz MarvelApi
-        val marvelApi = MarvelClient.service
+        val marvelApi = MarvelApiClient().create()
 
         // Realiza la llamada a la API de Marvel
-        val call = marvelApi.getCharacters("TU_API_KEY", "TU_TIMESTAMP", "TU_HASH")
+        val call = marvelApi?.getCharacters("TU_API_KEY", "TU_TIMESTAMP", "TU_HASH")
 
         call.enqueue(object : Callback<CharacterDataWrapper> {
             override fun onResponse(call: Call<CharacterDataWrapper>, response: Response<CharacterDataWrapper>) {
@@ -34,7 +34,7 @@ class MarvelActivity : AppCompatActivity() {
                     // Procesa la lista de personajes y muestra los resultados en el TextView
                     val characterNames = StringBuilder()
                     characters?.forEach { character ->
-                        characterNames.append(character?.name).append("\n")
+                        characterNames.append(character.name).append("\n")
                     }
                     characterListTextView.text = characterNames.toString()
                 } else {
@@ -43,7 +43,7 @@ class MarvelActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<CharacterResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CharacterDataWrapper>, t: Throwable) {
                 // Manejo de errores de la red
                 Toast.makeText(this@MarvelActivity, "Error de red", Toast.LENGTH_SHORT).show()
             }
