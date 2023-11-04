@@ -1,6 +1,7 @@
 package com.example.arquitecturaandroid
 
 import com.example.arquitecturaandroid.model.CharacterDataWrapper
+import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,5 +11,5 @@ interface ApiService {
         @Query("apikey") apiKey: String,
         @Query("ts") ts: String,
         @Query("hash") hash: String,
-        ): CharacterDataWrapper
+        ): Call<CharacterDataWrapper>
 }
